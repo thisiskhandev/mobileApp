@@ -1,4 +1,6 @@
-import React, { useState, Component } from "react";
+import React, { useState } from "react";
+// import AppLoading from "expo-app-loading";
+import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
 import {
   KeyboardAvoidingView,
@@ -6,40 +8,73 @@ import {
   Platform,
   TouchableOpacity,
 } from "react-native";
-import { StatusBar } from "expo-status-bar";
 import Task from "./components/Task";
-// import {
-//   Roboto_100Thin,
-//   Roboto_100Thin_Italic,
-//   Roboto_300Light,
-//   Roboto_300Light_Italic,
-//   Roboto_400Regular,
-//   Roboto_400Regular_Italic,
-//   Roboto_500Medium,
-//   Roboto_500Medium_Italic,
-//   Roboto_700Bold,
-//   Roboto_700Bold_Italic,
-//   Roboto_900Black,
-//   Roboto_900Black_Italic,
-// } from "@expo-google-fonts/roboto";
+import CustomComponents from "./src/screens/CustomComponents";
+import {
+  Roboto_100Thin,
+  Roboto_100Thin_Italic,
+  Roboto_300Light,
+  Roboto_300Light_Italic,
+  Roboto_400Regular,
+  Roboto_400Regular_Italic,
+  Roboto_500Medium,
+  Roboto_500Medium_Italic,
+  Roboto_700Bold,
+  Roboto_700Bold_Italic,
+  Roboto_900Black,
+  Roboto_900Black_Italic,
+} from "@expo-google-fonts/roboto";
+import { useFonts } from "expo-font";
+import { Keyboard } from "react-native-web";
 
 const App = () => {
-  const { task, setTask } = useState("");
-
+  let [fontsLoad] = useFonts({
+    Roboto_100Thin,
+    Roboto_100Thin_Italic,
+    Roboto_300Light,
+    Roboto_300Light_Italic,
+    Roboto_400Regular,
+    Roboto_400Regular_Italic,
+    Roboto_500Medium,
+    Roboto_500Medium_Italic,
+    Roboto_700Bold,
+    Roboto_700Bold_Italic,
+    Roboto_900Black,
+    Roboto_900Black_Italic,
+  });
+  const { task, setTask } = useState();
+  const { taskItems, setTaskItems } = useState([]);
   const handleAddTask = () => {
-    console.log(task);
+    // console.log(task);
+    Keyboard.dismiss();
+    setTaskItems([...taskItems, task]);
+    setTask(null);
+  };
+
+  const completeTask = (index) => {
+    let itemCopy = [...taskItems];
+    itemsCopy.splice(index, 1);
+    setTaskItems(itemsCopy);
   };
   return (
     <View style={styles.container}>
       <StatusBar style="dark" />
+      <CustomComponents />
       {/* Today's Task */}
       <View style={styles.taskWrapper}>
-        <Text style={styles.heading}>Today's Task</Text>
+        <Text style={styles.heading}>Today's Task!</Text>
         <View>
           {/* This is where task will go */}
-          <Task title="Task 1 😁" />
-          <Task title="Task 2" />
-          <Task title="Task 3" />
+          {/* {taskItems.map((item, index) => {
+            return (
+              <TouchableOpacity onPress={() => completeTask(index)}>
+                <Task key={index} text={item} />
+              </TouchableOpacity>
+            );
+          })} */}
+          <Task text="Task 1 😁" />
+          <Task text="Task 2 😎😋" />
+          <Task text="Task 3" />
         </View>
       </View>
       {/* Write Tasks */}
@@ -50,7 +85,7 @@ const App = () => {
         <TextInput
           style={styles.input}
           placeholder={"Write a task"}
-          value={"Testing"}
+          value={task}
           onChangeText={(text) => setTask(text)}
         />
         <TouchableOpacity onPress={() => handleAddTask()}>
@@ -70,13 +105,12 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   taskWrapper: {
-    paddingTop: 80,
     paddingHorizontal: 20,
   },
   heading: {
     fontSize: 26,
     fontWeight: "bold",
-    fontFamily: "Verdana",
+    fontFamily: "Roboto_900Black_Italic",
     marginBottom: 20,
   },
   writeTaskWrapper: {

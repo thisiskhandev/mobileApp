@@ -1,14 +1,30 @@
 import React from "react";
-import { StyleSheet, Text } from "react-native";
+import { View, Image } from "react-native";
 
 const CustomComponents = () => {
-  return <Text style={styles.textStyle}>This is working perfect!!!</Text>;
+  return (
+    <View
+      style={{
+        justifyContent: "center",
+        alignItems: "center",
+        paddingVertical: 30,
+        paddingTop: 80,
+      }}
+    >
+      <Image
+        style={{
+          width: 100,
+          height: 100,
+          justifyContent: "center",
+          flexDirection: "row",
+        }}
+        // source={require("../../assets/icon.png")}
+        source={{
+          uri: "https://cdn-icons-png.flaticon.com/512/609/609063.png",
+        }}
+      />
+    </View>
+  );
 };
-
-const styles = StyleSheet.create({
-  textStyle: {
-    color: "red",
-  },
-});
 
 export default CustomComponents;
